@@ -321,6 +321,7 @@ export default function App() {
   const renderWidget = (id: string) => {
       switch(id) {
           case 'map': return <IncidentMap incidents={incidents} />;
+          case 'incidentMap': return <IncidentMap incidents={incidents} />;
           case 'video': return <EyewitnessVideo />;
           case 'resultMosaic': return <ResultMosaic />;
           case 'candidates': return <CandidatesOverview />;
@@ -337,7 +338,8 @@ export default function App() {
 
   const getWidgetTitle = (id: string) => {
       const titles: Record<string, string> = {
-          map: 'Live Incident Map',
+          map: 'Incident Map',
+          incidentMap: 'Incident Map',
           video: 'Eyewitness Report',
           resultMosaic: 'Incident Mosaic',
           candidates: 'Candidates',
@@ -462,7 +464,7 @@ export default function App() {
                   onClick={() => setShowCardConfig(true)}
                   className="shrink-0 w-12 h-24 rounded-3xl border border-dashed border-slate-300 flex items-center justify-center text-slate-400 hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/50 transition-all group"
                >
-                   <Plus size={20} className="group-hover:scale-110 transition-transform"/>
+                   <Settings size={20} className="group-hover:rotate-90 transition-transform"/>
                </button>
 
                {/* AI Analysis Button - Floated Right or End of List */}
