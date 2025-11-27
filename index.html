@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Election Monitoring Portal - Situation Room</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              slate: {
+                25: '#fcfcfd',
+                50: '#f8fafc',
+                100: '#f1f5f9',
+                200: '#e2e8f0',
+                300: '#cbd5e1',
+                400: '#94a3b8',
+                500: '#64748b',
+                600: '#475569',
+                700: '#334155',
+                800: '#1e293b',
+                900: '#0f172a',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #F8FAFC; /* Slate 50 */
+        color: #0f172a;
+      }
+      
+      /* Refined Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1; 
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8; 
+      }
+      
+      .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+      }
+      .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+
+      /* React Grid Layout Animation Smoothness */
+      .react-grid-layout {
+        position: relative;
+        transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .react-grid-item {
+        transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        transition-property: left, top, width, height;
+      }
+      .react-grid-item img {
+        pointer-events: none;
+        user-select: none;
+      }
+      .react-grid-item.cssTransforms {
+        transition-property: transform, width, height;
+      }
+      .react-grid-item.resizing {
+        z-index: 100;
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+      }
+      .react-grid-item.react-grid-placeholder {
+        background: rgba(59, 130, 246, 0.05) !important;
+        opacity: 1 !important;
+        border: 2px dashed #93C5FD;
+        border-radius: 16px; /* Matched rounded-2xl */
+        z-index: 2;
+      }
+      
+      /* Resizable Handle Customization */
+      .react-resizable-handle {
+        position: absolute;
+        width: 30px; /* Larger hit area */
+        height: 30px;
+        bottom: 0;
+        right: 0;
+        cursor: se-resize;
+        z-index: 1000;
+        background: transparent;
+      }
+      /* Visual indicator */
+      .react-resizable-handle::after {
+        content: "";
+        position: absolute;
+        right: 6px;
+        bottom: 6px;
+        width: 8px;
+        height: 8px;
+        border-right: 3px solid #94a3b8;
+        border-bottom: 3px solid #94a3b8;
+        border-radius: 1px;
+        transition: border-color 0.2s, width 0.2s, height 0.2s;
+      }
+      .react-grid-item:hover .react-resizable-handle::after {
+        border-color: #3b82f6; /* Blue on hover */
+        width: 12px;
+        height: 12px;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.5.0",
+    "react-grid-layout": "https://esm.sh/react-grid-layout@1.4.4?external=react,react-dom",
+    "lodash": "https://esm.sh/lodash@4.17.21"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

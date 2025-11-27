@@ -1,0 +1,5 @@
+{
+  "name": "Situation Room",
+  "description": "Real-time election monitoring dashboard for international observers, featuring anomaly detection, incident mapping, and AI-powered integrity analysis.",
+  "requestFramePermissions": []
+}
