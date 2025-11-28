@@ -12,8 +12,8 @@ import { RegulatoryGuidelines } from './components/widgets/RegulatoryGuidelines'
 import { SocialMediaFeed } from './components/widgets/SocialMediaFeed';
 import { EyewitnessVideo } from './components/widgets/EyewitnessVideo';
 import { BreakingNews } from './components/widgets/BreakingNews';
-import { RoamingAgent } from './components/widgets/RoamingAgent';
 import { RoamingAgentTelemetry } from './components/widgets/RoamingAgentTelemetry';
+import { CandidateAgentTelemetry } from './components/widgets/CandidateAgentTelemetry';
 import { CardConfigPanel } from './components/CardConfigPanel';
 import { WidgetToolbox } from './components/WidgetToolbox';
 import { WidgetWrapper } from './components/WidgetWrapper';
@@ -336,8 +336,8 @@ export default function App() {
           case 'socialMedia': return <SocialMediaFeed />;
           case 'eyewitnessVideo': return <EyewitnessVideo />;
           case 'breakingNews': return <BreakingNews />;
-          case 'roamingAgent': return <RoamingAgent />;
           case 'roamingTelemetry': return <RoamingAgentTelemetry />;
+          case 'candidateTelemetry': return <CandidateAgentTelemetry />;
           default: return <div className="p-8 text-gray-300 flex items-center justify-center font-bold">Widget Ready</div>;
       }
   };
@@ -356,8 +356,8 @@ export default function App() {
           socialMedia: 'Social Stream',
           eyewitnessVideo: 'Eyewitness Report',
           breakingNews: 'Breaking News',
-          roamingAgent: 'Roaming Agent Ops',
-          roamingTelemetry: 'Roaming Agent Telemetry'
+          roamingTelemetry: 'Roaming Agent Telemetry',
+          candidateTelemetry: 'Candidate Agent Telemetry'
       };
       return titles[id] || 'Widget';
   };

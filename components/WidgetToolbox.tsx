@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutGrid, Box, Map, MessageCircle, Grid, Users, FileWarning, Scale, FileText, Newspaper, Video, MousePointer2, ChevronRight, Radio, Activity } from 'lucide-react';
+import { LayoutGrid, Box, Map, MessageCircle, Grid, Users, FileWarning, Scale, FileText, Newspaper, Video, MousePointer2, ChevronRight, Radio, Activity, ShieldCheck } from 'lucide-react';
 import { WidgetDefinition } from '../types';
 import { createPortal } from 'react-dom';
 
@@ -16,8 +16,8 @@ const AVAILABLE_WIDGETS: WidgetDefinition[] = [
     { type: 'candidates', title: 'Candidates', defaultW: 3, defaultH: 5, category: 'Data', icon: <Users size={20}/> },
     { type: 'constituency', title: 'Constituency Data', defaultW: 4, defaultH: 6, category: 'Data', icon: <Map size={20}/> },
     { type: 'provisional', title: 'Provisional Results', defaultW: 3, defaultH: 5, category: 'Data', icon: <FileWarning size={20}/> },
-    { type: 'roamingAgent', title: 'Roaming Agent Ops', defaultW: 4, defaultH: 6, category: 'Operations', icon: <Activity size={20}/> },
-    { type: 'roamingTelemetry', title: 'Agent Telemetry', defaultW: 3, defaultH: 5, category: 'Operations', icon: <Radio size={20}/> },
+    { type: 'roamingTelemetry', title: 'Roaming Agent Telemetry', defaultW: 3, defaultH: 5, category: 'Operations', icon: <Radio size={20}/> },
+    { type: 'candidateTelemetry', title: 'Candidate Agent Telemetry', defaultW: 4, defaultH: 5, category: 'Operations', icon: <ShieldCheck size={20}/> },
     { type: 'statutory', title: 'Statutory Guidelines', defaultW: 3, defaultH: 6, category: 'References', icon: <Scale size={20}/> },
     { type: 'regulatory', title: 'Regulatory Guidelines', defaultW: 3, defaultH: 6, category: 'References', icon: <FileText size={20}/> },
 ];

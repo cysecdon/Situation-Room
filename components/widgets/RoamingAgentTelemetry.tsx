@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { RoamingAgentProfile } from '../../types';
-import { Radio, Battery, Wifi, WifiOff, MapPin, Signal, Gauge } from 'lucide-react';
+import { Radio, Battery, Wifi, WifiOff, MapPin, Signal, Gauge, User } from 'lucide-react';
 
 export const RoamingAgentTelemetry: React.FC = () => {
   const [agents, setAgents] = useState<RoamingAgentProfile[]>([]);
@@ -14,24 +14,30 @@ export const RoamingAgentTelemetry: React.FC = () => {
         { id: 'RA-03', name: 'Agent Charlie', status: 'Idle', velocity: 0, adherenceScore: 78, location: 'HQ Staging', battery: 100, networkType: 'Wifi', coordinates: '9.0765° N, 7.3986° E' },
         { id: 'RA-04', name: 'Agent Delta', status: 'Reporting', velocity: 5, adherenceScore: 88, location: 'Kano - Municipal', battery: 30, networkType: '3G', coordinates: '12.0022° N, 8.5920° E' },
         { id: 'RA-05', name: 'Agent Echo', status: 'En Route', velocity: 62, adherenceScore: 95, location: 'Expressway N1', battery: 72, networkType: '4G', coordinates: '4.8156° N, 7.0498° E' },
+        { id: 'RA-06', name: 'Agent Foxtrot', status: 'Idle', velocity: 0, adherenceScore: 0, location: 'Unknown', battery: 0, networkType: 'Offline', coordinates: '-' },
     ];
     setAgents(MOCK_AGENTS);
 
     // Simulate Live Updates
     const interval = setInterval(() => {
         setAgents(prev => prev.map(agent => {
+            if (agent.networkType === 'Offline') return agent; // Offline agents don't update
+
             if (agent.status === 'En Route') {
-                const [lat, lng] = agent.coordinates.split(', ').map(c => parseFloat(c));
-                return { 
-                    ...agent, 
-                    velocity: Math.max(0, Math.min(120, agent.velocity + (Math.random() * 20 - 10))),
-                    battery: Math.max(0, agent.battery - 0.1),
-                    coordinates: `${(lat + 0.0001).toFixed(4)}° N, ${(lng + 0.0001).toFixed(4)}° E`
-                };
+                const parts = agent.coordinates.split(', ');
+                if (parts.length === 2) {
+                     const [lat, lng] = parts.map(c => parseFloat(c));
+                     return { 
+                        ...agent, 
+                        velocity: Math.max(0, Math.min(120, agent.velocity + (Math.random() * 20 - 10))),
+                        battery: Math.max(0, agent.battery - 0.1),
+                        coordinates: `${(lat + 0.0001).toFixed(4)}° N, ${(lng + 0.0001).toFixed(4)}° E`
+                    };
+                }
             }
-            if (Math.random() > 0.95) {
-                const nets = ['5G', '4G', '4G', '3G', 'Edge'] as const;
-                return { ...agent, networkType: nets[Math.floor(Math.random() * nets.length)] };
+            if (Math.random() > 0.98) {
+                 const nets = ['5G', '4G', '4G', '3G', 'Edge', 'Offline'] as const;
+                 return { ...agent, networkType: nets[Math.floor(Math.random() * nets.length)] };
             }
             return agent;
         }));
@@ -57,6 +63,8 @@ export const RoamingAgentTelemetry: React.FC = () => {
       return 'text-red-500';
   };
 
+  const isOnline = (networkType: string) => networkType !== 'Offline';
+
   return (
     <div className="h-full flex flex-col bg-white overflow-hidden">
         {/* Header Stats */}
@@ -65,8 +73,15 @@ export const RoamingAgentTelemetry: React.FC = () => {
                 <Radio size={14} className="text-blue-600 animate-pulse" />
                 <span className="text-[10px] font-bold text-gray-700 uppercase">Live Telemetry</span>
             </div>
-            <div className="text-[9px] font-mono text-gray-400">
-                {agents.length} Units Online
+            <div className="flex gap-2">
+                <div className="text-[9px] font-mono text-gray-400 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>
+                    {agents.filter(a => isOnline(a.networkType)).length} Online
+                </div>
+                <div className="text-[9px] font-mono text-gray-400 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-gray-400 inline-block"></span>
+                    {agents.filter(a => !isOnline(a.networkType)).length} Offline
+                </div>
             </div>
         </div>
 
@@ -74,7 +89,8 @@ export const RoamingAgentTelemetry: React.FC = () => {
             <table className="w-full text-left text-[10px]">
                 <thead className="bg-white sticky top-0 z-10 shadow-sm border-b border-gray-100">
                     <tr>
-                        <th className="p-2 font-bold text-gray-400 uppercase tracking-wider">Agent ID</th>
+                        <th className="p-2 font-bold text-gray-400 uppercase tracking-wider">Agent</th>
+                        <th className="p-2 font-bold text-gray-400 uppercase tracking-wider">Op. Status</th>
                         <th className="p-2 font-bold text-gray-400 uppercase tracking-wider">Network</th>
                         <th className="p-2 font-bold text-gray-400 uppercase tracking-wider">GPS Location</th>
                         <th className="p-2 font-bold text-gray-400 uppercase tracking-wider text-right">Speed</th>
@@ -83,18 +99,34 @@ export const RoamingAgentTelemetry: React.FC = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-50">
                     {agents.map(agent => (
-                        <tr key={agent.id} className="hover:bg-slate-50 transition-colors group">
-                            {/* Agent ID */}
+                        <tr key={agent.id} className={`hover:bg-slate-50 transition-colors group ${!isOnline(agent.networkType) ? 'opacity-60 bg-gray-50' : ''}`}>
+                            {/* Agent ID & Status Indicator */}
                             <td className="p-2">
                                 <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[9px] font-bold text-slate-600 border border-slate-200">
-                                        {agent.id.split('-')[1]}
+                                    <div className="relative">
+                                         <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[9px] font-bold text-slate-600 border border-slate-200">
+                                            {agent.id.split('-')[1]}
+                                        </div>
+                                        {/* Status Dot */}
+                                        <div className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border border-white ${isOnline(agent.networkType) ? 'bg-green-500' : 'bg-gray-400'}`}></div>
                                     </div>
                                     <div>
-                                        <div className="font-bold text-gray-800">{agent.id}</div>
-                                        <div className="text-[8px] text-gray-400">{agent.name}</div>
+                                        <div className="font-bold text-gray-800 leading-tight">{agent.name}</div>
+                                        <div className="text-[8px] text-gray-400 font-mono">{agent.id}</div>
                                     </div>
                                 </div>
+                            </td>
+
+                            {/* Operational Status */}
+                            <td className="p-2">
+                                <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide border ${
+                                    agent.status === 'Investigating' ? 'bg-red-50 text-red-600 border-red-100' :
+                                    agent.status === 'En Route' ? 'bg-blue-50 text-blue-600 border-blue-100' :
+                                    agent.status === 'Reporting' ? 'bg-purple-50 text-purple-600 border-purple-100' :
+                                    'bg-gray-100 text-gray-600 border-gray-200'
+                                }`}>
+                                    {agent.status}
+                                </span>
                             </td>
 
                             {/* Network Connectivity */}

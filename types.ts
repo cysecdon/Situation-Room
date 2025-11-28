@@ -214,3 +214,15 @@ export interface InvestigationTask {
     location: string;
     timeCreated: string;
 }
+
+export interface CandidateAgentProfile {
+    id: string;
+    name: string;
+    party: string;
+    assignedPu: string;
+    opStatus: 'Monitoring' | 'Reporting' | 'Away' | 'Offline';
+    networkType: '5G' | '4G' | '3G' | 'Edge' | 'Offline' | 'Wifi';
+    coordinates: string;
+    locationStatus: 'On Site' | 'Off Site' | 'Proximity Warning';
+    battery: number;
+}
