@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Header } from './components/Header';
 import { StatusBanner } from './components/StatusBanner';
 import { IncidentMap } from './components/IncidentMap';
@@ -246,9 +246,12 @@ export default function App() {
   // Called when RGL internal layout changes (e.g. while dragging)
   // We only update local state here to keep UI fluid. 
   // History is saved on DragStop/ResizeStop.
-  const onLayoutChange = (currentLayout: any[]) => {
-      setLayout(currentLayout);
-  };
+  const onLayoutChange = useCallback((currentLayout: any[]) => {
+      // FIX: Deep comparison to prevent infinite render loop
+      if (!_.isEqual(layout, currentLayout)) {
+          setLayout(currentLayout);
+      }
+  }, [layout]);
 
   const onDragStop = (newLayout: any[]) => {
       saveToHistory(newLayout, widgets);
@@ -358,6 +361,9 @@ export default function App() {
       };
       return titles[id] || 'Widget';
   };
+
+  // FIX: Memoize layouts object to prevent infinite re-renders due to object reference changes
+  const layouts = useMemo(() => ({ lg: layout }), [layout]);
 
   return (
     <div className="flex flex-col h-screen bg-[#F6F8FC] overflow-hidden font-sans text-slate-900 selection:bg-blue-100">
@@ -503,7 +509,7 @@ export default function App() {
             <div className="flex-1 overflow-y-auto px-6 pb-32 custom-scrollbar">
                 <ResponsiveGridLayout
                     className="layout"
-                    layouts={{ lg: layout }}
+                    layouts={layouts}
                     breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
                     cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
                     rowHeight={60}
