@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Header } from './components/Header';
 import { StatusBanner } from './components/StatusBanner';
@@ -13,6 +12,8 @@ import { RegulatoryGuidelines } from './components/widgets/RegulatoryGuidelines'
 import { SocialMediaFeed } from './components/widgets/SocialMediaFeed';
 import { EyewitnessVideo } from './components/widgets/EyewitnessVideo';
 import { BreakingNews } from './components/widgets/BreakingNews';
+import { RoamingAgent } from './components/widgets/RoamingAgent';
+import { RoamingAgentTelemetry } from './components/widgets/RoamingAgentTelemetry';
 import { CardConfigPanel } from './components/CardConfigPanel';
 import { WidgetToolbox } from './components/WidgetToolbox';
 import { WidgetWrapper } from './components/WidgetWrapper';
@@ -332,6 +333,8 @@ export default function App() {
           case 'socialMedia': return <SocialMediaFeed />;
           case 'eyewitnessVideo': return <EyewitnessVideo />;
           case 'breakingNews': return <BreakingNews />;
+          case 'roamingAgent': return <RoamingAgent />;
+          case 'roamingTelemetry': return <RoamingAgentTelemetry />;
           default: return <div className="p-8 text-gray-300 flex items-center justify-center font-bold">Widget Ready</div>;
       }
   };
@@ -349,7 +352,9 @@ export default function App() {
           regulatory: 'Regulatory Guidelines',
           socialMedia: 'Social Stream',
           eyewitnessVideo: 'Eyewitness Report',
-          breakingNews: 'Breaking News'
+          breakingNews: 'Breaking News',
+          roamingAgent: 'Roaming Agent Ops',
+          roamingTelemetry: 'Roaming Agent Telemetry'
       };
       return titles[id] || 'Widget';
   };

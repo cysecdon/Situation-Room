@@ -191,3 +191,26 @@ export interface MetricCardConfig {
   format?: 'number' | 'percentage' | 'decimal';
   color?: string; // Override color logic
 }
+
+// --- ROAMING AGENT TYPES ---
+export interface RoamingAgentProfile {
+    id: string;
+    name: string;
+    status: 'Idle' | 'En Route' | 'Investigating' | 'Reporting';
+    velocity: number; // km/h
+    adherenceScore: number; // 0-100
+    location: string;
+    battery: number;
+    networkType: '5G' | '4G' | '3G' | 'Edge' | 'Offline' | 'Wifi';
+    coordinates: string;
+}
+
+export interface InvestigationTask {
+    id: string;
+    title: string;
+    status: 'Pending' | 'In Progress' | 'Resolved';
+    priority: 'Critical' | 'High' | 'Medium' | 'Low';
+    agentId?: string;
+    location: string;
+    timeCreated: string;
+}
