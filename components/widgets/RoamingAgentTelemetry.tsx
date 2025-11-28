@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { RoamingAgentProfile } from '../../types';
-import { Radio, Battery, Wifi, WifiOff, MapPin, Signal } from 'lucide-react';
+import { Radio, Battery, Wifi, WifiOff, MapPin, Signal, Gauge } from 'lucide-react';
 
 export const RoamingAgentTelemetry: React.FC = () => {
   const [agents, setAgents] = useState<RoamingAgentProfile[]>([]);
@@ -76,6 +77,7 @@ export const RoamingAgentTelemetry: React.FC = () => {
                         <th className="p-2 font-bold text-gray-400 uppercase tracking-wider">Agent ID</th>
                         <th className="p-2 font-bold text-gray-400 uppercase tracking-wider">Network</th>
                         <th className="p-2 font-bold text-gray-400 uppercase tracking-wider">GPS Location</th>
+                        <th className="p-2 font-bold text-gray-400 uppercase tracking-wider text-right">Speed</th>
                         <th className="p-2 font-bold text-gray-400 uppercase tracking-wider text-right">Battery</th>
                     </tr>
                 </thead>
@@ -113,6 +115,17 @@ export const RoamingAgentTelemetry: React.FC = () => {
                                         <div className="font-mono text-gray-700 tracking-tight">{agent.coordinates}</div>
                                         <div className="text-[8px] text-gray-400 truncate max-w-[100px]">{agent.location}</div>
                                     </div>
+                                </div>
+                            </td>
+
+                            {/* Speed */}
+                            <td className="p-2 text-right">
+                                <div className="flex items-center justify-end gap-1.5">
+                                    <span className={`font-mono font-bold ${agent.velocity > 0 ? 'text-blue-600' : 'text-gray-400'}`}>
+                                        {Math.round(agent.velocity)}
+                                    </span>
+                                    <span className="text-[8px] text-gray-400 uppercase">km/h</span>
+                                    {agent.velocity > 0 && <Gauge size={12} className="text-blue-400" />}
                                 </div>
                             </td>
 
