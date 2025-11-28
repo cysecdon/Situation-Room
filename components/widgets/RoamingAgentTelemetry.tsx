@@ -90,7 +90,6 @@ export const RoamingAgentTelemetry: React.FC = () => {
                 <thead className="bg-white sticky top-0 z-10 shadow-sm border-b border-gray-100">
                     <tr>
                         <th className="p-2 font-bold text-gray-400 uppercase tracking-wider">Agent</th>
-                        <th className="p-2 font-bold text-gray-400 uppercase tracking-wider">Op. Status</th>
                         <th className="p-2 font-bold text-gray-400 uppercase tracking-wider">Network</th>
                         <th className="p-2 font-bold text-gray-400 uppercase tracking-wider">GPS Location</th>
                         <th className="p-2 font-bold text-gray-400 uppercase tracking-wider text-right">Speed</th>
@@ -115,18 +114,6 @@ export const RoamingAgentTelemetry: React.FC = () => {
                                         <div className="text-[8px] text-gray-400 font-mono">{agent.id}</div>
                                     </div>
                                 </div>
-                            </td>
-
-                            {/* Operational Status */}
-                            <td className="p-2">
-                                <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide border ${
-                                    agent.status === 'Investigating' ? 'bg-red-50 text-red-600 border-red-100' :
-                                    agent.status === 'En Route' ? 'bg-blue-50 text-blue-600 border-blue-100' :
-                                    agent.status === 'Reporting' ? 'bg-purple-50 text-purple-600 border-purple-100' :
-                                    'bg-gray-100 text-gray-600 border-gray-200'
-                                }`}>
-                                    {agent.status}
-                                </span>
                             </td>
 
                             {/* Network Connectivity */}

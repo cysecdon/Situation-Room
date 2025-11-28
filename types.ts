@@ -225,4 +225,5 @@ export interface CandidateAgentProfile {
     coordinates: string;
     locationStatus: 'On Site' | 'Off Site' | 'Proximity Warning';
     battery: number;
+    velocity: number;
 }
